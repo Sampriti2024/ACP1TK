@@ -1,0 +1,53 @@
+import tkinter as tk
+import random
+
+def determine_winner(user, computer):
+    """Determines the winner of the game."""
+    if user == computer:
+        return "It's a tie!"
+    elif (user == 'rock' and computer == 'scissors') or \
+         (user == 'paper' and computer == 'rock') or \
+         (user == 'scissors' and computer == 'paper'):
+        return "You win! Computer chose " + computer
+    else:
+        return "You lose! Computer chose " + computer
+
+def play_game():
+    """Plays a round of rock-paper-scissors."""
+    user_choice = user_choice_var.get()
+    computer_choice = random.choice(['rock', 'paper', 'scissors'])
+    result = determine_winner(user_choice, computer_choice)
+    result_label.config(text=result)
+
+    if "win" in result:
+        user_score_var.set(user_score_var.get() + 1)
+    elif "lose" in result:
+        computer_score_var.set(computer_score_var.get() + 1)
+
+    user_score_display.config(text=f"Your Score: {user_score_var.get()}")
+    computer_score_display.config(text=f"Computer Score: {computer_score_var.get()}")
+
+root = tk.Tk()
+root.title("Rock Paper Scissors")
+
+user_choice_var = tk.StringVar(value='rock') 
+user_score_var = tk.IntVar(value=0)
+computer_score_var = tk.IntVar(value=0)
+
+choices = ['rock', 'paper', 'scissors']
+
+for choice in choices:
+    tk.Radiobutton(root, text=choice, variable=user_choice_var, value=choice).pack(anchor=tk.W)
+
+tk.Button(root, text="Play", command=play_game).pack()
+
+result_label = tk.Label(root, text="")
+result_label.pack()
+
+user_score_display = tk.Label(root, text="Your Score: 0")
+user_score_display.pack()
+
+computer_score_display = tk.Label(root, text="Computer Score: 0")
+computer_score_display.pack()
+
+root.mainloop()
